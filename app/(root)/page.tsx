@@ -1,53 +1,58 @@
-import React from "react";
 
-// import {getCurrentUser} from "@/lib/auth/actions";
+
+import { redirect } from "next/navigation";
+import { getCurrentUser } from "@/lib/auth/actions";
 import Card from "../components/Card";
 
-const products = [
-  {
-    id: 1,
-    title: "Air Max Pulse",
-    subtitle: "Men's Shoes",
-    meta: "6 Colour",
-    price: 149.99,
-    imageSrc: "/shoes/shoe-1.jpg",
-    badge: { label: "New", tone: "orange" as const },
-  },
-  {
-    id: 2,
-    title: "Air Zoom Pegasus",
-    subtitle: "Men's Shoes",
-    meta: "4 Colour",
-    price: 129.99,
-    imageSrc: "/shoes/shoe-2.webp",
-    badge: { label: "Hot", tone: "red" as const },
-  },
-  {
-    id: 3,
-    title: "InfinityRN 4",
-    subtitle: "Men's Shoes",
-    meta: "6 Colour",
-    price: 159.99,
-    imageSrc: "/shoes/shoe-3.webp",
-    badge: { label: "Trending", tone: "green" as const },
-  },
-  {
-    id: 4,
-    title: "Metcon 9",
-    subtitle: "Men's Shoes",
-    meta: "3 Colour",
-    price: 139.99,
-    imageSrc: "/shoes/shoe-4.webp",
-  },
-];
+export default async function Home() {
+  const user = await getCurrentUser();
 
-const Home = async () => {
-  // const user = await getCurrentUser();
+  // If the user is not logged in, redirect to sign-in page
+  if (!user) {
+    redirect("/sign-in");
+  }
 
-  // console.log('USER:', user);
+  // If the user is logged in, show the main homepage content
+  const products = [
+    {
+      id: 1,
+      title: "Air Max Pulse",
+      subtitle: "Men's Shoes",
+      meta: "6 Colour",
+      price: 149.99,
+      imageSrc: "/shoes/shoe-1.jpg",
+      badge: { label: "New", tone: "orange" as const },
+    },
+    {
+      id: 2,
+      title: "Air Zoom Pegasus",
+      subtitle: "Men's Shoes",
+      meta: "4 Colour",
+      price: 129.99,
+      imageSrc: "/shoes/shoe-2.webp",
+      badge: { label: "Hot", tone: "red" as const },
+    },
+    {
+      id: 3,
+      title: "InfinityRN 4",
+      subtitle: "Men's Shoes",
+      meta: "6 Colour",
+      price: 159.99,
+      imageSrc: "/shoes/shoe-3.webp",
+      badge: { label: "Trending", tone: "green" as const },
+    },
+    {
+      id: 4,
+      title: "Metcon 9",
+      subtitle: "Men's Shoes",
+      meta: "3 Colour",
+      price: 139.99,
+      imageSrc: "/shoes/shoe-4.webp",
+    },
+  ];
 
   return (
-    <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+       <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <section aria-labelledby="latest" className="pb-12">
         <h2 id="latest" className="mb-6 text-heading-3 text-dark-900">
           Latest shoes
@@ -69,6 +74,4 @@ const Home = async () => {
       </section>
     </main>
   );
-};
-
-export default Home;
+}

@@ -4,7 +4,7 @@ import {cookies, headers} from "next/headers";
 import { z } from "zod";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { guests } from "@/lib/db/schema/index";
+import { guests } from "../db/schema/index";
 import { and, eq, lt } from "drizzle-orm";
 import { randomUUID } from "crypto";
 
