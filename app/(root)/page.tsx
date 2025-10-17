@@ -1,55 +1,10 @@
 
-
-import { redirect } from "next/navigation";
-import { getCurrentUser } from "@/lib/auth/actions";
 import Card from "../components/Card";
+import { getAllProducts } from "@/lib/actions/product";
 
 export default async function Home() {
-  const user = await getCurrentUser();
+  const { products } = await getAllProducts({ limit: 6 });
 
-  // If the user is not logged in, redirect to sign-in page
-  if (!user) {
-    redirect("/sign-in");
-  }
-
-  // If the user is logged in, show the main homepage content
-  const products = [
-    {
-      id: 1,
-      title: "Air Max Pulse",
-      subtitle: "Men's Shoes",
-      meta: "6 Colour",
-      price: 149.99,
-      imageSrc: "/shoes/shoe-1.jpg",
-      badge: { label: "New", tone: "orange" as const },
-    },
-    {
-      id: 2,
-      title: "Air Zoom Pegasus",
-      subtitle: "Men's Shoes",
-      meta: "4 Colour",
-      price: 129.99,
-      imageSrc: "/shoes/shoe-2.webp",
-      badge: { label: "Hot", tone: "red" as const },
-    },
-    {
-      id: 3,
-      title: "InfinityRN 4",
-      subtitle: "Men's Shoes",
-      meta: "6 Colour",
-      price: 159.99,
-      imageSrc: "/shoes/shoe-3.webp",
-      badge: { label: "Trending", tone: "green" as const },
-    },
-    {
-      id: 4,
-      title: "Metcon 9",
-      subtitle: "Men's Shoes",
-      meta: "3 Colour",
-      price: 139.99,
-      imageSrc: "/shoes/shoe-4.webp",
-    },
-  ];
 
   return (
        <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -58,18 +13,24 @@ export default async function Home() {
           Latest shoes
         </h2>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {products.map((p) => (
-            <Card
-              key={p.id}
-              title={p.title}
-              subtitle={p.subtitle}
-              meta={p.meta}
-              imageSrc={p.imageSrc}
-              price={p.price}
-              badge={p.badge}
-              href={`/products/${p.id}`}
-            />
-          ))}
+            {products.map((p) => {
+                          const price =
+                            p.minPrice !== null && p.maxPrice !== null && p.minPrice !== p.maxPrice
+                              ? `$${p.minPrice.toFixed(2)} - $${p.maxPrice.toFixed(2)}`
+                              : p.minPrice !== null
+                              ? p.minPrice
+                              : undefined;
+                          return (
+                            <Card
+                              key={p.id}
+                              title={p.name}
+                              subtitle={p.subtitle ?? undefined}
+                              imageSrc={p.imageUrl ?? "/shoes/shoe-1.jpg"}
+                              price={price}
+                              href={`/products/${p.id}`}
+                            />
+                          );
+                        })}
         </div>
       </section>
     </main>

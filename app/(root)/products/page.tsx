@@ -2,7 +2,7 @@ import { Card } from "../../components";
 import Filters from "../../components/Filters";
 import Sort from "../../components/Sort";
 import { parseFilterParams } from "@/lib/utils/query";
-import { getAllProducts } from "../../../lib/actions/product";
+import { getAllProducts } from "@/lib/actions/product";
 
 type SearchParams = Record<string, string | string[] | undefined>;
 
